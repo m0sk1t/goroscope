@@ -1,5 +1,4 @@
-import React from 'react';
-import { StackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation";
 
 import Welcome from "./Welcome";
 import AgeChoose from "./AgeChoose";
@@ -10,28 +9,28 @@ import SummaryPage from "./SummaryPage";
 import HoroscopePage from "./HoroscopePage";
 
 
-const AppNavigator = StackNavigator(
+const AppNavigator = createStackNavigator(
   {
     Welcome: {
       screen: Welcome,
     },
     AgeChoose: {
-      screen: AgeChoose
+      screen: AgeChoose,
     },
     SexChoose: {
-      screen: SexChoose
+      screen: SexChoose,
     },
     NameChoose: {
-      screen: NameChoose
+      screen: NameChoose,
     },
     TimeChoose: {
-      screen: TimeChoose
+      screen: TimeChoose,
     },
     SummaryPage: {
-      screen: SummaryPage
+      screen: SummaryPage,
     },
     HoroscopePage: {
-      screen: HoroscopePage
+      screen: HoroscopePage,
     },
   }, {
     navigationOptions: {

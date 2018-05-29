@@ -1,12 +1,17 @@
 import React, { Component } from "react";
 import {
   Text,
-  View,
   StyleSheet,
   AsyncStorage,
+  ActivityIndicator,
 } from 'react-native';
 import { parseString } from "react-native-xml2js";
 
+import HoroTabs from './HoroTabs';
+import BGImage from '../components/BGImage';
+
+
+const HORO_URL = 'http://ignio.com/r/export/utf/xml/daily/com.xml';
 
 class HoroscopePage extends Component {
   constructor(props) {
@@ -16,13 +21,13 @@ class HoroscopePage extends Component {
       horo: null,
     };
     AsyncStorage.getItem('@HoroApp:user', (err, user) => {
-      this.setState({ user });
+      this.setState({ user: JSON.parse(user) });
+      this._fetchData();
     });
-    this._fetchData();
   }
 
   _fetchData() {
-    fetch('http://ignio.com/r/export/utf/xml/daily/com.xml')
+    fetch(HORO_URL)
       .then(res =>
         res.ok
           ? res.text()
@@ -31,10 +36,7 @@ class HoroscopePage extends Component {
         parseString(
           res,
           (err, data) => {
-            console.log(data);
-            this.setState({
-              horo: data.horo
-            });
+            this.setState({ horo: data.horo });
           }
         )
       );
@@ -43,22 +45,26 @@ class HoroscopePage extends Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <View>
-        <Text style={styles.onboardingText}>horo</Text>
-      </View>
+      <BGImage>
+        <Text style={styles.welcomeText}>Ваш гороскоп</Text>
+        {
+          this.state.horo && this.state.user
+            ? <HoroTabs screenProps={{
+                horo: this.state.horo[this.state.user.sign][0],
+              }} />
+            : <ActivityIndicator size="large" color="#eee" />
+        }
+      </BGImage>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  onboardingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
-  onboardingText: {
-    fontSize: 24,
+  welcomeText: {
+    padding: 12,
+    fontSize: 32,
     color: '#eee',
+    textAlign: 'center',
   },
 });
 

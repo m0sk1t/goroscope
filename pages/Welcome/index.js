@@ -37,7 +37,7 @@ const Welcome = function ({ navigation }) {
         navigateEnabled={true}
         showBreadcrumbs={false}
         currentScreen='Welcome'
-        navigate={() => navigate('Horoscope')}
+        navigate={() => navigate('HoroscopePage')}
       >
         <Text style={styles.onboardingWelcome}>
           Привет, {user.name}!

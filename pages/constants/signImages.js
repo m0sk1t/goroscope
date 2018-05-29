@@ -1,5 +1,5 @@
 const signImages = {
-  'capricornus': require('../assets/capricornus.png'),
+  'capricorn': require('../assets/capricornus.png'),
   'aquarius': require('../assets/aquarius.png'),
   'pisces': require('../assets/pisces.png'),
   'aries': require('../assets/aries.png'),
@@ -9,7 +9,7 @@ const signImages = {
   'leo': require('../assets/leo.png'),
   'virgo': require('../assets/virgo.png'),
   'libra': require('../assets/libra.png'),
-  'scorpius': require('../assets/scorpius.png'),
+  'scorpio': require('../assets/scorpius.png'),
   'sagittarius': require('../assets/sagittarius.png'),
 }
 

@@ -16,6 +16,7 @@ class SummaryPage extends Component {
       user: null,
     };
     AsyncStorage.getItem('@HoroApp:user', (err, user) => {
+      console.log(user);
       this.setState({ user });
     });
   }
@@ -26,38 +27,29 @@ class SummaryPage extends Component {
       <OnboardingWrapper
         showBreadcrumbs={true}
         currentScreen='SummaryPage'
-        navigateEnabled={this.state.user}
+        navigateEnabled={true}
         navigate={() => navigate('HoroscopePage')}
       >
-        <View style={styles.onboardingRow}>
-          <View>
-            <Text style={styles.onboardingText}>{this.state.user? this.state.user.name: ''}</Text>
-          </View>
-          <View>
-            <Text style={styles.onboardingText}>{this.state.user? this.state.user.sex: ''}</Text>
-          </View>
-        </View>
-        <View style={styles.onboardingRow}>
-          <View>
-            <Text style={styles.onboardingText}>{this.state.user? this.state.user.sign: ''}</Text>
-          </View>
-          <View>
-            <Text style={styles.onboardingText}>{this.state.user? this.state.user.time: ''}</Text>
-          </View>
-        </View>
-      </OnboardingWrapper>  
+        {this.state.user && <Text style={styles.onboardingText}>{this.state.user.sex}</Text>}
+        {this.state.user && <Text style={styles.onboardingText}>{this.state.user.time}</Text>}
+        {this.state.user && <Text style={styles.onboardingText}>{this.state.user.name}</Text>}
+        {this.state.user && <Text style={styles.onboardingText}>{this.state.user.sign}</Text>}
+      </OnboardingWrapper>
     );
   }
 }
 
 const styles = StyleSheet.create({
   onboardingRow: {
+    flex: 1,
+    flexWrap: 'wrap',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   onboardingText: {
-    fontSize: 24,
+    flex: 1,
+    fontSize: 16,
     color: '#eee',
   },
 });

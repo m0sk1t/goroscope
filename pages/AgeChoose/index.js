@@ -60,7 +60,9 @@ export default class AgeChoose extends Component {
         navigateEnabled={this.state.sign}
         navigate={() => {
           AsyncStorage.mergeItem('@HoroApp:user', JSON.stringify(this.state), (err) => {
-            navigate('TimeChoose');
+            navigate('HoroscopePage');
+            // TODO: UNCOMMENT AND REPLACE!!!
+            // navigate('TimeChoose');
           });
         }}
       >

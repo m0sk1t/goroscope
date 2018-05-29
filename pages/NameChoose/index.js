@@ -27,7 +27,7 @@ class NameChoose extends Component {
         navigateEnabled={this.state.name}
         navigate={() => {
           AsyncStorage.mergeItem('@HoroApp:user', JSON.stringify(this.state), (err) => {
-            navigate('SummaryPage');
+            navigate('HoroscopePage');
           });
         }}
       >
