@@ -6,6 +6,7 @@ import {
   StyleSheet,
   AsyncStorage,
 } from 'react-native';
+import { parseString } from "react-native-xml2js";
 
 import OnboardingWrapper from '../components/OnboardingWrapper';
 
@@ -14,8 +15,31 @@ class NameChoose extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      horo: null,
       name: null,
+      user: null,
     };
+    AsyncStorage.getItem('@HoroApp:user', (err, user) => {
+      this.setState({ user: JSON.parse(user) });
+      this._fetchData();
+    });
+  }
+
+  _fetchData() {
+    const HORO_URL = 'http://ignio.com/r/export/utf/xml/daily/com.xml';
+    fetch(HORO_URL)
+      .then(res =>
+        res.ok
+          ? res.text()
+          : console.error(res.statusText))
+      .then(res =>
+        parseString(
+          res,
+          (err, data) => {
+            this.setState({ horo: data.horo });
+          }
+        )
+      );
   }
 
   render() {
@@ -24,10 +48,13 @@ class NameChoose extends Component {
       <OnboardingWrapper
         showBreadcrumbs={true}
         currentScreen='NameChoose'
-        navigateEnabled={this.state.name}
+        navigateEnabled={this.state.name && this.state.user && this.state.horo}
         navigate={() => {
           AsyncStorage.mergeItem('@HoroApp:user', JSON.stringify(this.state), (err) => {
-            navigate('HoroscopePage');
+            navigate({
+              routeName: 'HoroscopePage',
+              params: { horo: this.state.horo[this.state.user.sign][0] },
+            });
           });
         }}
       >

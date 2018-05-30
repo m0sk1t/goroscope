@@ -1,3 +1,5 @@
+import React from "react";
+import { View } from 'react-native';
 import { createStackNavigator } from "react-navigation";
 
 import Welcome from "./Welcome";
@@ -34,7 +36,7 @@ const AppNavigator = createStackNavigator(
     },
   }, {
     navigationOptions: {
-      header: null,
+      header: <View style={{ height: 24, backgroundColor: '#333' }} />,
     }
   }
 );

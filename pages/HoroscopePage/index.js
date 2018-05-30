@@ -1,71 +1,73 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   Text,
+  Platform,
   StyleSheet,
-  AsyncStorage,
-  ActivityIndicator,
 } from 'react-native';
-import { parseString } from "react-native-xml2js";
+import {
+  createBottomTabNavigator,
+  createMaterialTopTabNavigator,
+} from "react-navigation";
 
-import HoroTabs from './HoroTabs';
 import BGImage from '../components/BGImage';
 
+const Tab = ({ day, navigation }) => {
+  const { horo } = navigation.state.params;
+  return (
+    <BGImage style={styles.tabContent}>
+      <Text style={styles.horoscopeText}>
+        { horo ? horo[day][0] : 'формируется...' }
+      </Text>
+    </BGImage>
+  )
+};
 
-const HORO_URL = 'http://ignio.com/r/export/utf/xml/daily/com.xml';
+const routeConfig = {
+  Yesterday: {
+    navigationOptions: { title: 'Вчера' },
+    screen: props => <Tab {...props} day='yesterday' />
+  },
+  Today: {
+    navigationOptions: { title: 'Сегодня' },
+    screen: props => <Tab {...props} day='today' />
+  },
+  Tomorrow: {
+    navigationOptions: { title: 'Завтра' },
+    screen: props => <Tab {...props} day='tomorrow' />
+  },
+};
 
-class HoroscopePage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: null,
-      horo: null,
-    };
-    AsyncStorage.getItem('@HoroApp:user', (err, user) => {
-      this.setState({ user: JSON.parse(user) });
-      this._fetchData();
-    });
-  }
+const tabNavigatorConfig = {
+  swipeEnabled: true,
+  animationEnabled: true,
+  initialRouteName: 'Today',
+  tabBarOptions: {
+    indicatorStyle: {
+      backgroundColor: '#eeaacc',
+    },
+    style: {
+      backgroundColor: '#333',
+    },
+  },
+};
 
-  _fetchData() {
-    fetch(HORO_URL)
-      .then(res =>
-        res.ok
-          ? res.text()
-          : console.error(res.statusText))
-      .then(res =>
-        parseString(
-          res,
-          (err, data) => {
-            this.setState({ horo: data.horo });
-          }
-        )
-      );
-  }
-
-  render() {
-    const { navigate } = this.props.navigation;
-    return (
-      <BGImage>
-        <Text style={styles.welcomeText}>Ваш гороскоп</Text>
-        {
-          this.state.horo && this.state.user
-            ? <HoroTabs screenProps={{
-                horo: this.state.horo[this.state.user.sign][0],
-              }} />
-            : <ActivityIndicator size="large" color="#eee" />
-        }
-      </BGImage>
-    );
-  }
-}
+const HoroTabs = Platform.OS === 'ios'
+  ? createBottomTabNavigator(routeConfig, tabNavigatorConfig)
+  : createMaterialTopTabNavigator(routeConfig, tabNavigatorConfig);
 
 const styles = StyleSheet.create({
-  welcomeText: {
-    padding: 12,
-    fontSize: 32,
+  tabContent: {
+    flex: 1,
+    padding: 20,
+    alignItems: 'center',
+    backgroundColor: '#333',
+    justifyContent: 'center',
+  },
+  horoscopeText: {
+    flex: 1,
+    fontSize: 20,
     color: '#eee',
-    textAlign: 'center',
   },
 });
 
-export default HoroscopePage;
+export default HoroTabs;
