@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+
+import { tracker } from "../AppNavigator";
 import OnboardingWrapper from '../components/OnboardingWrapper';
 
 
@@ -17,6 +19,7 @@ class SexChoose extends Component {
     this.state = {
       sex: null,
     };
+    tracker.trackScreenView('SexChoose');
   }
 
   render() {
@@ -27,6 +30,7 @@ class SexChoose extends Component {
         currentScreen='SexChoose'
         navigateEnabled={this.state.sex}
         navigate={() => {
+          tracker.trackEvent("openscreen", "NameChoose");
           AsyncStorage.mergeItem('@HoroApp:user', JSON.stringify(this.state), (err) => {
             navigate('NameChoose');
           });
@@ -40,21 +44,35 @@ class SexChoose extends Component {
         <View
           style={styles.onboardingChoose}
         >
-          <TouchableOpacity onPress={() => {
-            this.setState({ sex: 'm' });
-          }}>
+          <TouchableOpacity
+            style={styles.onboardingChooseBtn}
+            onPress={() => {
+              this.setState({ sex: 'm' });
+            }}
+          >
             <Image
-              source={require('../assets/male-thin.png')}
-              style={this.state.sex === 'm' ? styles.onboardingSexIcon : styles.onboardingSexIconDis}
+              source={require('../img/male-thin.png')}
+              style={[
+                styles.onboardingSexIcon,
+                this.state.sex === 'm' ? {} : styles.onboardingSexIconDis
+              ]}
             />
+            <Text style={{ color: '#eee'}}>М</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => {
-            this.setState({ sex: 'f' });
-          }}>
+          <TouchableOpacity
+            style={styles.onboardingChooseBtn}
+            onPress={() => {
+              this.setState({ sex: 'f' });
+            }}
+          >
             <Image
-              source={require('../assets/female-thin.png')}
-              style={this.state.sex === 'f' ? styles.onboardingSexIcon : styles.onboardingSexIconDis}
+              source={require('../img/female-thin.png')}
+              style={[
+                styles.onboardingSexIcon,
+                this.state.sex === 'f' ? {} : styles.onboardingSexIconDis
+              ]}
             />
+            <Text style={{ color: '#eee'}}>Ж</Text>
           </TouchableOpacity>
         </View>
       </OnboardingWrapper>
@@ -71,6 +89,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
   },
+  onboardingChooseBtn: {
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
   onboardingSexIcon: {
     margin: 10,
     width: 100,
@@ -79,11 +102,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   onboardingSexIconDis: {
-    margin: 10,
-    width: 100,
-    height: 100,
     tintColor: '#eeeeee99',
-    alignSelf: 'center',
   },
 });
 

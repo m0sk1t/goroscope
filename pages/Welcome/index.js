@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { parseString } from "react-native-xml2js";
 
+import { tracker } from '../AppNavigator';
 import OnboardingWrapper from '../components/OnboardingWrapper';
 
 
@@ -21,6 +22,7 @@ export default class Welcome extends Component  {
       this.setState({ user: JSON.parse(user) });
       this._fetchData();
     });
+    tracker.trackScreenView("Welcome");
   }
 
   _fetchData() {
@@ -43,16 +45,22 @@ export default class Welcome extends Component  {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      this.state.user
+      this.state.user && this.state.user.name
         ? this.state.horo
           ? (<OnboardingWrapper
             showBreadcrumbs={false}
             currentScreen='Welcome'
             navigateEnabled={this.state.horo}
-            navigate={() => navigate({
-              routeName: 'HoroscopePage',
-              params: { horo: this.state.horo[this.state.user.sign][0] },
-            })}
+            navigate={() => {
+              tracker.trackEvent("openscreen", "HoroscopePage");
+              navigate({
+                routeName: 'HoroscopePage',
+                params: {
+                  sign: this.state.user.sign,
+                  horo: this.state.horo[this.state.user.sign][0]
+                },
+              });
+            }}
           >
             <Text style={styles.onboardingWelcome}>
               Привет, {this.state.user.name}!
@@ -66,7 +74,10 @@ export default class Welcome extends Component  {
           navigateEnabled={true}
           showBreadcrumbs={true}
           currentScreen='Welcome'
-          navigate={() => navigate('AgeChoose')}
+          navigate={() => {
+            tracker.trackEvent("openscreen", "AgeChoose");
+            navigate('AgeChoose');
+          }}
         >
           <Text style={styles.onboardingHoroType}>
             Персональный любовный гороскоп
@@ -85,7 +96,7 @@ export default class Welcome extends Component  {
 
 const styles = StyleSheet.create({
   onboardingHelping: {
-    fontSize: 24,
+    fontSize: 20,
     color: '#eee',
     textAlign: 'center',
     fontWeight: 'normal',
@@ -95,7 +106,7 @@ const styles = StyleSheet.create({
     color: '#eee',
   },
   onboardingWelcome: {
-    fontSize: 24,
+    fontSize: 20,
     color: '#eee',
     fontWeight: 'bold',
     textAlign: 'center',

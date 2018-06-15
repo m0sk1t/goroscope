@@ -53,7 +53,10 @@ class NameChoose extends Component {
           AsyncStorage.mergeItem('@HoroApp:user', JSON.stringify(this.state), (err) => {
             navigate({
               routeName: 'HoroscopePage',
-              params: { horo: this.state.horo[this.state.user.sign][0] },
+              params: {
+                sign: this.state.user.sign,
+                horo: this.state.horo[this.state.user.sign][0],
+              },
             });
           });
         }}

@@ -1,5 +1,22 @@
 {
   "expo": {
+    "name": "LoveHoro",
+    "icon": "./icon.png",
+    "version": "1.0.0",
+    "slug": "love-horo-app",
+    "orientation": "portrait",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.m0sk1t.lovehoro"
+    },
+    "android": {
+      "package": "com.m0sk1t.lovehoro"
+    },
     "sdkVersion": "27.0.0"
-  }
+  },
+  "name": "goroscope",
+  "displayName": "Love Horo"
 }

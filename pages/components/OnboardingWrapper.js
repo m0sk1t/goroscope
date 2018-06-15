@@ -6,7 +6,7 @@ import {
   StyleSheet,
   TouchableHighlight,
 } from "react-native";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Entypo';
 
 import BGImage from './BGImage';
 
@@ -25,7 +25,7 @@ const OnboardingWrapper = ({
       <View style={styles.onboardingContainer}>
         <Image
           style={styles.onboardingLogo}
-          source={require('../assets/ch.png')}
+          source={require('../img/ch.png')}
         />
         <Text style={styles.onboardingTitle}>
           HoroSphere
@@ -38,9 +38,9 @@ const OnboardingWrapper = ({
           onPress={() => navigate()}
         >
           <Icon
-            size={16}
+            size={24}
             color='#333'
-            name='chevron-right'
+            name='chevron-with-circle-right'
           />
         </TouchableHighlight>
         {showBreadcrumbs && <View style={styles.onboardingBreadcrumbs}>
@@ -49,7 +49,7 @@ const OnboardingWrapper = ({
           {currentScreen === 'TimeChoose' ? <ActiveBreadcrumb />: <InactiveBreadcrumb />}
           {currentScreen === 'SexChoose' ? <ActiveBreadcrumb />: <InactiveBreadcrumb />}
           {currentScreen === 'NameChoose' ? <ActiveBreadcrumb />: <InactiveBreadcrumb />}
-          {currentScreen === 'SummaryPage' ? <ActiveBreadcrumb />: <InactiveBreadcrumb />}
+          {/* {currentScreen === 'SummaryPage' ? <ActiveBreadcrumb />: <InactiveBreadcrumb />} */}
         </View>}
       </View>
     </BGImage>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#00000099',
+    backgroundColor: '#000000aa',
   },
   onboardingForwardButton: {
     width: 64,

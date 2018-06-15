@@ -10,9 +10,11 @@ import {
   TouchableOpacity,
   DatePickerAndroid,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 
 import signs from "../constants/signs";
 import signImages from "../constants/signImages";
+import { tracker } from "../AppNavigator";
 import OnboardingWrapper from '../components/OnboardingWrapper';
 
 
@@ -24,6 +26,7 @@ export default class AgeChoose extends Component {
       birthDate: null,
       displayDate: null,
     };
+    tracker.trackScreenView('AgeChoose');
   }
 
   openPicker = async () => {
@@ -59,6 +62,7 @@ export default class AgeChoose extends Component {
         currentScreen='AgeChoose'
         navigateEnabled={this.state.sign}
         navigate={() => {
+          tracker.trackEvent("openscreen", "TimeChoose");
           AsyncStorage.mergeItem('@HoroApp:user', JSON.stringify(this.state), (err) => {
             navigate('TimeChoose');
           });
@@ -79,11 +83,16 @@ export default class AgeChoose extends Component {
                 style={styles.onboardingAge}
               >Выберите дату рождения</Text>
         }
-        <TouchableOpacity onPress={() => this.openPicker()}>
+        <TouchableOpacity style={styles.dateLine} onPress={() => this.openPicker()}>
+          <Icon
+            size={24}
+            color="#eee"
+            name="edit"
+          />
           <Text
             style={styles.onboardingAge}
           >
-            {this.state.displayDate || 'DD/MM/YYYY'}
+            {' '}{this.state.displayDate || 'DD/MM/YYYY'}
           </Text>
         </TouchableOpacity>
       </OnboardingWrapper>
@@ -92,6 +101,10 @@ export default class AgeChoose extends Component {
 }
 
 const styles = StyleSheet.create({
+  dateLine: {
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
   onboardingAge: {
     fontSize: 24,
     color: '#eee',

@@ -1,0 +1,2 @@
+keytool -genkey -v -keystore horoapp.keystore -alias horoapp -keyalg RSA -keysize 2048 -validity 10000
+q1w2e3r4

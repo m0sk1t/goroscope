@@ -1,16 +1,16 @@
 const signImages = {
-  'capricorn': require('../assets/capricornus.png'),
-  'aquarius': require('../assets/aquarius.png'),
-  'pisces': require('../assets/pisces.png'),
-  'aries': require('../assets/aries.png'),
-  'taurus': require('../assets/taurus.png'),
-  'gemini': require('../assets/gemini.png'),
-  'cancer': require('../assets/cancer.png'),
-  'leo': require('../assets/leo.png'),
-  'virgo': require('../assets/virgo.png'),
-  'libra': require('../assets/libra.png'),
-  'scorpio': require('../assets/scorpius.png'),
-  'sagittarius': require('../assets/sagittarius.png'),
+  'capricorn': require('../img/capricornus.png'),
+  'aquarius': require('../img/aquarius.png'),
+  'pisces': require('../img/pisces.png'),
+  'aries': require('../img/aries.png'),
+  'taurus': require('../img/taurus.png'),
+  'gemini': require('../img/gemini.png'),
+  'cancer': require('../img/cancer.png'),
+  'leo': require('../img/leo.png'),
+  'virgo': require('../img/virgo.png'),
+  'libra': require('../img/libra.png'),
+  'scorpio': require('../img/scorpius.png'),
+  'sagittarius': require('../img/sagittarius.png'),
 }
 
 export default signImages;

@@ -1,6 +1,7 @@
 import React from "react";
 import { View } from 'react-native';
 import { createStackNavigator } from "react-navigation";
+import { GoogleAnalyticsTracker } from "react-native-google-analytics-bridge";
 
 import Welcome from "./Welcome";
 import AgeChoose from "./AgeChoose";
@@ -10,6 +11,7 @@ import TimeChoose from "./TimeChoose";
 import SummaryPage from "./SummaryPage";
 import HoroscopePage from "./HoroscopePage";
 
+export const tracker = new GoogleAnalyticsTracker('UA-120712289-1');
 
 const AppNavigator = createStackNavigator(
   {

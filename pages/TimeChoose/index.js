@@ -8,6 +8,8 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+
+import { tracker } from "../AppNavigator";
 import OnboardingWrapper from '../components/OnboardingWrapper';
 
 
@@ -17,6 +19,7 @@ class TimeChoose extends Component {
     this.state = {
       time: null,
     };
+    tracker.trackScreenView('TimeChoose');
   }
 
   render() {
@@ -27,6 +30,7 @@ class TimeChoose extends Component {
         currentScreen='TimeChoose'
         navigateEnabled={this.state.time}
         navigate={() => {
+          tracker.trackEvent("openscreen", "SexChoose");
           AsyncStorage.mergeItem('@HoroApp:user', JSON.stringify(this.state), (err) => {
             navigate('SexChoose');
           });
