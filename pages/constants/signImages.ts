@@ -1,4 +1,8 @@
-const signImages = {
+interface Keyed {
+  [key: string]: {};
+}
+
+const signImages: Keyed = {
   'capricorn': require('../img/capricornus.png'),
   'aquarius': require('../img/aquarius.png'),
   'pisces': require('../img/pisces.png'),

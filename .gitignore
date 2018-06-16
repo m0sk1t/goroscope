@@ -9,6 +9,10 @@
 /android
 /ios
 
+# Jest
+#
+.jest/
+
 # misc
 .env.local
 .env.development.local

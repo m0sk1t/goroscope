@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   Text,
   View,
@@ -18,13 +18,24 @@ import { tracker } from "../AppNavigator";
 import OnboardingWrapper from '../components/OnboardingWrapper';
 
 
-export default class AgeChoose extends Component {
-  constructor(props) {
+interface Props {
+  navigation?: object | undefined;
+}
+
+interface State {
+  sign?: string;
+  birthDate?: Date;
+  displayDate?: string;
+}
+
+
+export default class AgeChoose extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
-      sign: null,
-      birthDate: null,
-      displayDate: null,
+      sign: '',
+      displayDate: '',
+      birthDate: undefined,
     };
     tracker.trackScreenView('AgeChoose');
   }
@@ -34,7 +45,7 @@ export default class AgeChoose extends Component {
       const { action, year, month, day } = await DatePickerAndroid.open({
         date: new Date()
       });
-      if (action !== DatePickerAndroid.dismissedAction) {
+      if (action !== DatePickerAndroid.dismissedAction && month && year && day) {
         const sign = this.defineSign(month, day);
         this.setState({
           sign,
@@ -47,7 +58,7 @@ export default class AgeChoose extends Component {
     }
   }
 
-  defineSign(m, d) {
+  defineSign(m: number, d: number): string {
     if (d > signs[m][0]) m += 1;
     if (m > 11) m = 1;
     return signs[m][1];
@@ -55,12 +66,12 @@ export default class AgeChoose extends Component {
 
   render() {
     const { navigate } = this.props.navigation;
-    const sign = this.state.sign ? signs.filter(el => el[1] === this.state.sign)[0]: '';
+    const sign = this.state.sign ? signs.filter(el => el[1] === this.state.sign)[0]: [];
     return (
       <OnboardingWrapper
         showBreadcrumbs={true}
         currentScreen='AgeChoose'
-        navigateEnabled={this.state.sign}
+        navigateEnabled={Boolean(this.state.sign)}
         navigate={() => {
           tracker.trackEvent("openscreen", "TimeChoose");
           AsyncStorage.mergeItem('@HoroApp:user', JSON.stringify(this.state), (err) => {
@@ -81,7 +92,7 @@ export default class AgeChoose extends Component {
               </View>
             : <Text
                 style={styles.onboardingAge}
-              >Выберите дату рождения</Text>
+              >{'Выберите дату рождения'}</Text>
         }
         <TouchableOpacity style={styles.dateLine} onPress={() => this.openPicker()}>
           <Icon

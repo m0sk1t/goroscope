@@ -13,7 +13,15 @@ import BGImage from './BGImage';
 const ActiveBreadcrumb = () => <View style={styles.onboardingBreadcrumbActive}></View>;
 const InactiveBreadcrumb = () => <View style={styles.onboardingBreadcrumbInactive}></View>;
 
-const OnboardingWrapper = ({
+
+interface Props {
+  navigate: () => void;
+  currentScreen?: String;
+  showBreadcrumbs?: Boolean;
+  navigateEnabled?: Boolean;
+}
+
+const OnboardingWrapper: React.StatelessComponent<Props> = ({
   children,
   navigate,
   currentScreen,
@@ -49,7 +57,6 @@ const OnboardingWrapper = ({
           {currentScreen === 'TimeChoose' ? <ActiveBreadcrumb />: <InactiveBreadcrumb />}
           {currentScreen === 'SexChoose' ? <ActiveBreadcrumb />: <InactiveBreadcrumb />}
           {currentScreen === 'NameChoose' ? <ActiveBreadcrumb />: <InactiveBreadcrumb />}
-          {/* {currentScreen === 'SummaryPage' ? <ActiveBreadcrumb />: <InactiveBreadcrumb />} */}
         </View>}
       </View>
     </BGImage>

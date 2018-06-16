@@ -2,7 +2,7 @@ import React from 'react';
 import { ImageBackground } from 'react-native';
 
 
-const BGImage = ({ children }) => {
+const BGImage: React.StatelessComponent<{}> = ({ children }) => {
   return (
     <ImageBackground
       style={{ flex: 1}}

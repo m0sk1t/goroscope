@@ -6,7 +6,7 @@ import {
   AsyncStorage,
 } from 'react-native';
 
-import OnboardingWrapper from '../components/OnboardingWrapper';
+import BGImage from '../components/BGImage';
 
 
 class SummaryPage extends Component {
@@ -24,17 +24,12 @@ class SummaryPage extends Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <OnboardingWrapper
-        showBreadcrumbs={true}
-        currentScreen='SummaryPage'
-        navigateEnabled={true}
-        navigate={() => navigate('HoroscopePage')}
-      >
+      <BGImage>
         {this.state.user && <Text style={styles.onboardingText}>{this.state.user.sex}</Text>}
         {this.state.user && <Text style={styles.onboardingText}>{this.state.user.time}</Text>}
         {this.state.user && <Text style={styles.onboardingText}>{this.state.user.name}</Text>}
         {this.state.user && <Text style={styles.onboardingText}>{this.state.user.sign}</Text>}
-      </OnboardingWrapper>
+      </BGImage>
     );
   }
 }

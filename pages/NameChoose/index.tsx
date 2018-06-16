@@ -11,16 +11,28 @@ import { parseString } from "react-native-xml2js";
 import OnboardingWrapper from '../components/OnboardingWrapper';
 
 
-class NameChoose extends Component {
-  constructor(props) {
+interface Props {
+  navigation?: { navigate: () => void };
+}
+
+interface State {
+  name?: string | undefined;
+  user?: object | undefined;
+  horo?: object | undefined;
+}
+
+
+class NameChoose extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
-      horo: null,
-      name: null,
-      user: null,
+      horo: undefined,
+      name: undefined,
+      user: undefined,
     };
-    AsyncStorage.getItem('@HoroApp:user', (err, user) => {
-      this.setState({ user: JSON.parse(user) });
+    AsyncStorage.getItem('@HoroApp:user', (err, user?: string) => {
+      if (err) return console.error(err.message);
+      this.setState({ user: JSON.parse(user || '') });
       this._fetchData();
     });
   }
@@ -28,15 +40,19 @@ class NameChoose extends Component {
   _fetchData() {
     const HORO_URL = 'http://ignio.com/r/export/utf/xml/daily/com.xml';
     fetch(HORO_URL)
-      .then(res =>
-        res.ok
-          ? res.text()
-          : console.error(res.statusText))
+      .then(res => {
+        if (res.ok) {
+          return res.text();
+        } else {
+          throw new Error(res.statusText);
+        }
+      })
       .then(res =>
         parseString(
           res,
-          (err, data) => {
-            this.setState({ horo: data.horo });
+          (err: Error, data: { horo: object }) => {
+            if (err) return console.error(err.message);
+            this.setState({ ...data.horo });
           }
         )
       );
@@ -48,7 +64,7 @@ class NameChoose extends Component {
       <OnboardingWrapper
         showBreadcrumbs={true}
         currentScreen='NameChoose'
-        navigateEnabled={this.state.name && this.state.user && this.state.horo}
+        navigateEnabled={Boolean(this.state.name && this.state.user && this.state.horo)}
         navigate={() => {
           AsyncStorage.mergeItem('@HoroApp:user', JSON.stringify(this.state), (err) => {
             navigate({
